@@ -1,0 +1,90 @@
+/* src/index.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tambahkan kode ini di bawahnya */
+@keyframes blob-anim-1 {
+  0% { transform: scale(1) translate(0, 0); }
+  33% { transform: scale(1.1) translate(20px, -30px); }
+  66% { transform: scale(0.9) translate(-20px, 20px); }
+  100% { transform: scale(1) translate(0, 0); }
+}
+
+@keyframes blob-anim-2 {
+  0% { transform: scale(1) translate(0, 0); }
+  33% { transform: scale(1.1) translate(-20px, 30px); }
+  66% { transform: scale(0.9) translate(20px, -20px); }
+  100% { transform: scale(1) translate(0, 0); }
+}
+
+.animate-blob-1 {
+  animation: blob-anim-1 15s infinite ease-in-out;
+}
+
+.animate-blob-2 {
+  animation: blob-anim-2 18s infinite ease-in-out;
+}
+
+/* Tambahkan kode ini di bawahnya untuk EFEK AURORA */
+@keyframes aurora-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(40px, -60px) scale(1.2); }
+  50% { transform: translate(-30px, 50px) scale(0.9); }
+  75% { transform: translate(50px, 20px) scale(1.1); }
+}
+
+@keyframes aurora-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-50px, 40px) scale(0.9); }
+  50% { transform: translate(30px, -60px) scale(1.2); }
+  75% { transform: translate(-40px, 30px) scale(1); }
+}
+
+@keyframes aurora-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(60px, 30px) scale(1.1); }
+  50% { transform: translate(-40px, -50px) scale(0.9); }
+  75% { transform: translate(30px, -40px) scale(1.2); }
+}
+
+.animate-aurora-1 {
+  animation: aurora-1 20s infinite ease-in-out;
+}
+.animate-aurora-2 {
+  animation: aurora-2 25s infinite ease-in-out;
+}
+.animate-aurora-3 {
+  animation: aurora-3 22s infinite ease-in-out;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* src/index.css */
+
+/* ... (CSS yang sudah ada: @import, @tailwind, custom-scrollbar, aurora-1, aurora-2, aurora-3) ... */
+
+/* Keyframes untuk LinkChecker Aurora */
+@keyframes move-aurora-checker {
+    0% { transform: translate(-50%, -50%) rotate(0deg) scale(1.2); }
+    50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.5); }
+    100% { transform: translate(-50%, -50%) rotate(360deg) scale(1.2); }
+}
