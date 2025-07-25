@@ -1,27 +1,17 @@
 // src/components/EdukasiModal.js
+
 import React, { useEffect, useRef, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Hapus import yang tidak digunakan secara langsung di sini
-// import shieldAnim from '../assets/modal/shield.json';
-// import warningAnim from '../assets/modal/warning.json';
-// import ranteAnim from '../assets/modal/rante.json';
-
-// Import video MP4 yang baru kamu buat untuk animasi phishing
-import phishingAnimationMp4 from '../assets/modal/phishing-animation.mp4'; // <-- PASTIKAN NAMA FILE INI SESUAI!
-
-// Lazy load komponen Lottie dari lottie-react package
 const LottiePlayer = lazy(() => import('lottie-react'));
 
 function EdukasiModal({ isOpen, onClose, topic, animMap }) {
   const lottieRef = useRef(null);
 
   useEffect(() => {
-    if (lottieRef.current) {
-      if (!isOpen) {
+    if (lottieRef.current && !isOpen) {
         lottieRef.current.destroy();
         lottieRef.current = null;
-      }
     }
   }, [isOpen]);
 
@@ -30,44 +20,27 @@ function EdukasiModal({ isOpen, onClose, topic, animMap }) {
       return <div className="text-gray-500 dark:text-gray-400 text-center">Pilih topik edukasi.</div>;
     }
 
-    // Jika topiknya adalah "Membedah Anatomi Phishing", tampilkan video MP4
-    if (topic.title === "Membedah Anatomi Phishing") {
+    const animationData = animMap[topic.title];
+    
+    if (!animationData) {
       return (
-        <video
-          src={phishingAnimationMp4} // Gunakan video MP4 yang sudah diimport
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-contain max-w-[280px]"
-          aria-label="Phishing Animation"
-        />
-      );
-    } else {
-      // Untuk topik lain, gunakan Lottie
-      const animationData = animMap[topic.title];
-      
-      if (!animationData) {
-        return (
-          <div className="text-gray-500 dark:text-gray-400 text-center flex items-center justify-center h-full max-w-[280px] mx-auto text-lg p-4">
-            <p>Animasi untuk topik ini tidak tersedia.</p>
-          </div>
-        );
-      }
-
-      return (
-        <Suspense fallback={<div className="text-gray-500 dark:text-gray-400 text-center">Memuat animasi...</div>}>
-          <LottiePlayer
-            key={topic.id}
-            lottieRef={lottieRef}
-            animationData={animationData}
-            loop={true}
-            className="w-full h-full max-w-[280px]"
-            options={{ renderer: 'svg', preserveAspectRatio: 'xMidYMid slice' }}
-          />
-        </Suspense>
+        <div className="text-gray-500 dark:text-gray-400 text-center flex items-center justify-center h-full max-w-[280px] mx-auto text-lg p-4">
+          <p>Animasi untuk topik ini tidak tersedia.</p>
+        </div>
       );
     }
+
+    return (
+      <Suspense fallback={<div className="text-gray-500 dark:text-gray-400 text-center">Memuat animasi...</div>}>
+        <LottiePlayer
+          key={topic.id}
+          lottieRef={lottieRef}
+          animationData={animationData}
+          loop={true}
+          className="w-full h-full max-w-[280px]"
+        />
+      </Suspense>
+    );
   };
 
   return (
@@ -90,13 +63,11 @@ function EdukasiModal({ isOpen, onClose, topic, animMap }) {
             transition={{ type: 'spring', stiffness: 200, damping: 25 }}
             className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl max-w-4xl w-full flex flex-col md:flex-row overflow-hidden border border-slate-200 dark:border-slate-700 max-h-[90vh]"
           >
-            {/* Bagian Media */}
-            <div className="w-full h-48 md:w-1/2 md:h-auto bg-gradient-to-br from-purple-600 to-indigo-700 dark:from-purple-900 dark:to-indigo-950 flex items-center justify-center p-4">
+            <div className="w-full h-48 md:w-[45%] md:h-auto bg-gradient-to-br from-purple-600 to-indigo-700 dark:from-purple-900 dark:to-indigo-950 flex items-center justify-center p-4">
               {renderModalMedia()}
             </div>
 
-            {/* Bagian Konten */}
-            <div className="w-full md:w-1/2 p-6 sm:p-8 relative overflow-y-auto custom-scrollbar">
+            <div className="w-full md:w-[55%] p-8 sm:p-10 relative overflow-y-auto custom-scrollbar">
               <button
                 aria-label="Close modal"
                 onClick={onClose}
@@ -104,8 +75,24 @@ function EdukasiModal({ isOpen, onClose, topic, animMap }) {
               >
                 &times;
               </button>
-              <h3 className="text-2xl font-bold text-indigo-700 dark:text-indigo-400 mb-4 leading-snug">{topic?.title}</h3>
-              <p className="text-slate-700 dark:text-slate-300 text-base leading-relaxed whitespace-pre-line">{topic?.detail}</p>
+              
+              <h3 className="text-3xl font-bold text-indigo-700 dark:text-indigo-400 mb-5 leading-snug">
+                {topic?.title}
+              </h3>
+              {/* --- PERUBAHAN TIPOGRAFI DI BARIS INI --- */}
+              <div className="text-slate-700 dark:text-slate-300 text-lg leading-loose whitespace-pre-line space-y-6 text-justify">
+                {topic?.detail.split('\n\n').map((paragraph, index) => {
+                    if (paragraph.startsWith('- ')) {
+                        const listItems = paragraph.split('\n- ').map(item => item.replace('- ', ''));
+                        return (
+                            <ul key={index} className="list-disc list-inside space-y-2 pl-2">
+                                {listItems.map((li, liIndex) => <li key={liIndex}>{li}</li>)}
+                            </ul>
+                        )
+                    }
+                    return <p key={index}>{paragraph}</p>
+                })}
+              </div>
             </div>
           </motion.div>
         </motion.div>

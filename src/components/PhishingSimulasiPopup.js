@@ -1,42 +1,46 @@
-// src/components/PhishingSimulasiPopup.js (Lengkap dengan Tombol Interaktif & SVG)
+// src/components/PhishingSimulasiPopup.js (Versi Baru dengan Konten & Animasi Update)
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Lottie from 'lottie-react';
 import { Gift, X, ArrowLeft, ArrowRight } from 'lucide-react';
 
+// Import semua animasi yang dibutuhkan
+import animEmail from '../assets/simulasi/Email.json'; // <-- Animasi baru
 import anim1 from '../assets/simulasi/1.json';
 import anim2 from '../assets/simulasi/2.json';
 import anim3 from '../assets/simulasi/3.json';
 import anim4 from '../assets/simulasi/4.json';
 
+
+// --- KONTEN & ANIMASI BARU DI SINI ---
 const steps = [
     { 
         title: "Langkah 1: Umpan Dikirim", 
-        desc: "Anda menerima email atau pesan dengan tawaran yang sangat menggiurkan: 'Selamat! Anda memenangkan hadiah!'. Pesan ini dirancang untuk membangkitkan rasa penasaran dan mendesak Anda untuk segera bertindak.",
-        anim: anim1 
+        desc: "Anda menerima email yang seolah-olah dari layanan populer, lengkap dengan logo dan format yang meyakinkan. Isinya mendesak: 'Ada aktivitas mencurigakan di akun Anda, segera verifikasi!' atau tawaran hadiah yang terlalu bagus untuk dilewatkan.",
+        anim: animEmail // <-- Gambar diubah ke Email.json
     },
     { 
         title: "Langkah 2: Jebakan di Depan Mata", 
-        desc: "Karena penasaran, Anda mengklik link tersebut. Anda langsung diarahkan ke sebuah situs web yang tampilannya sangat mirip dengan aslinya. Semua logo, warna, dan tulisannya dibuat untuk menipu Anda.",
-        anim: anim2,
-        actionLabel: "Lanjutkan ke Situs Klaim Hadiah" 
+        desc: "Karena panik atau penasaran, Anda mengklik link di dalam email. Anda langsung diarahkan ke situs web palsu yang tampilannya 99% identik dengan aslinya. Perhatikan URL di browser, mungkin ada salah eja seperti 'gogle.com' bukan 'google.com'.",
+        anim: anim1, // <-- Gambar diubah ke 1.json
+        actionLabel: "Lanjutkan ke Situs Palsu" 
     },
     { 
         title: "Langkah 3: Anda Memasukkan Data", 
-        desc: "Situs palsu ini meminta Anda login untuk 'klaim hadiah'. Tanpa curiga, Anda memasukkan username, password, bahkan mungkin data pribadi lainnya. Setiap ketukan tombol Anda direkam oleh peretas.",
-        anim: anim3,
-        actionLabel: "Login & Klaim Sekarang!"
+        desc: "Situs palsu ini menampilkan form login yang Anda kenal. Tanpa curiga, Anda memasukkan username dan password. Semua yang Anda ketik, meskipun terlihat normal di layar, sebenarnya direkam oleh peretas.",
+        anim: anim2, // <-- Gambar diubah ke 2.json
+        actionLabel: "Login untuk Verifikasi"
     },
     { 
         title: "Langkah 4: Data Berhasil Dicuri", 
-        desc: "Begitu Anda menekan 'Login' atau 'Submit', semua data yang Anda masukkan langsung terkirim ke server milik peretas dalam sekejap mata. Tidak ada proses loading yang aneh, semuanya tampak normal.",
-        anim: anim4 
+        desc: "Saat Anda menekan 'Login', data Anda langsung terkirim ke server milik peretas. Anda mungkin akan dialihkan ke halaman yang asli setelahnya agar tidak curiga, namun data Anda sudah berhasil dicuri.",
+        anim: anim3 // <-- Gambar diubah ke 3.json
     },
     { 
         title: "Langkah 5: Akun Diambil Alih", 
-        desc: "Kini peretas memiliki kunci akses ke akun Anda. Mereka bisa menguras rekening, menyebarkan informasi palsu, menipu kontak Anda, atau menjual data pribadi Anda ke pihak lain. Kerugian sudah terjadi.",
-        anim: anim4 
+        desc: "Dengan username dan password Anda, peretas kini memiliki kendali penuh. Mereka bisa mengakses data pribadi, menguras rekening, atau bahkan menggunakan akun Anda untuk menipu orang lain. Kerugian sudah terjadi.",
+        anim: anim4 // <-- Gambar diubah ke 4.json
     },
 ];
 
@@ -53,6 +57,7 @@ const stepVariants = {
 };
 
 export default function PhishingSimulasiPopup() {
+    // ... Sisa kode komponen ini tidak ada yang berubah, jadi aman untuk diganti semua ...
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
 
@@ -129,20 +134,20 @@ export default function PhishingSimulasiPopup() {
                                 
                                 {steps[currentStep].actionLabel ? (
                                     <button onClick={handleNext} className="px-8 py-3 bg-gradient-to-r from-rose-500 to-red-600 rounded-lg text-white font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-red-500/30">
-                                      {steps[currentStep].actionLabel}
+                                        {steps[currentStep].actionLabel}
                                     </button>
                                 ) : (
                                     <>
-                                      {currentStep === steps.length - 1 ? (
-                                          <button onClick={() => setIsPopupOpen(false)} className="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg text-white font-semibold transition-all duration-300 transform hover:scale-105">
-                                              Saya Paham Risikonya
-                                          </button>
-                                      ) : (
-                                          <button onClick={handleNext} className="flex items-center gap-2 px-5 py-2 rounded-lg text-white bg-purple-600 hover:bg-purple-700 disabled:opacity-40 transition-colors">
-                                              <span>Langkah Selanjutnya</span>
-                                              <ArrowRight size={18} />
-                                          </button>
-                                      )}
+                                        {currentStep === steps.length - 1 ? (
+                                            <button onClick={() => setIsPopupOpen(false)} className="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg text-white font-semibold transition-all duration-300 transform hover:scale-105">
+                                                Selesai & Paham
+                                            </button>
+                                        ) : (
+                                            <button onClick={handleNext} className="flex items-center gap-2 px-5 py-2 rounded-lg text-white bg-purple-600 hover:bg-purple-700 disabled:opacity-40 transition-colors">
+                                                <span>Langkah Selanjutnya</span>
+                                                <ArrowRight size={18} />
+                                            </button>
+                                        )}
                                     </>
                                 )}
                             </div>

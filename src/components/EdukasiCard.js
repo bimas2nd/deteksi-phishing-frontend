@@ -11,7 +11,7 @@ function EdukasiCard({ item, onClick, onHover, isActive }) {
       transition={{ type: 'spring', stiffness: 250, damping: 20 }}
       className={`p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 transform
         ${isActive
-          ? 'bg-indigo-900 border-indigo-700 text-white shadow-xl dark:bg-indigo-800 dark:border-indigo-600'
+          ? 'bg-indigo-900 border-indigo-700 text-white shadow-2xl shadow-indigo-500/40 dark:bg-indigo-800 dark:border-indigo-600 ring-4 ring-indigo-400/50'
           : 'bg-white border-slate-200 text-gray-800 shadow-sm dark:bg-slate-800 dark:border-slate-700 dark:text-gray-200 hover:border-indigo-400 dark:hover:border-indigo-500'}
       `}
     >
